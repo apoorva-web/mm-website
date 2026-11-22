@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MachMind360 – Restaurant POS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Figtree:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#fbf3e6;--card:#fffaf0;--ink:#3a2418;--mute:#7a6454;--or:#e8731a;--or2:#c85d0c;--line:#ead9bf;--soft:#f6e6cc;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1410;--card:#291c15;--ink:#f7eadb;--mute:#c4ac96;--or:#ff8a3a;--or2:#ffa05c;--line:#42301f;--soft:#35241a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1410;--card:#291c15;--ink:#f7eadb;--mute:#c4ac96;--or:#ff8a3a;--or2:#ffa05c;--line:#42301f;--soft:#35241a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0;line-height:1.08;letter-spacing:-.01em}
+a{color:inherit}.w{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:9;background:var(--bg);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;gap:22px;height:62px}
+.logo{font:800 21px Fraunces,serif;text-decoration:none;margin-right:auto}.logo i{color:var(--or);font-style:normal}
+nav{display:flex;gap:6px;font-size:15px}nav a{text-decoration:none;color:var(--mute);padding:6px 11px;border-radius:20px}nav a:hover{color:var(--ink)}nav a[aria-current=page]{background:var(--ink);color:var(--bg)}
+.btn{display:inline-block;background:var(--or);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:700 15px Figtree,sans-serif;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--or2)}.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.g:hover{background:var(--soft)}
+:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.v{display:none;padding:52px 0 20px}.v.on{display:block}
+.hd{max-width:620px;margin-bottom:28px}.hd h2{font-size:clamp(30px,4.4vw,46px)}.hd p{color:var(--mute);margin:10px 0 0}
+.hero{position:relative;overflow:hidden;padding:30px 0 10px}
+.hero:before{content:"";position:absolute;right:-120px;top:-80px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,var(--or) 0,transparent 68%);opacity:.28}
+.hero .w{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.hero h1{font-size:clamp(42px,6.6vw,76px);font-weight:800}.hero h1 span{color:var(--or)}
+.hero p{font-size:19px;color:var(--mute);margin:20px 0 28px;max-width:44ch}.cta{display:flex;gap:10px;flex-wrap:wrap}
+.stage{position:relative;padding:0 0 36px 0}
+.mock{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 24px 50px rgba(120,70,20,.2)}
+.mock .top{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:10px}
+.big{font:800 36px Fraunces,serif}.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.t{border-radius:10px;padding:9px;font-size:13px;border:1px solid var(--line);background:var(--bg)}.t b{display:block;font-size:15px}
+.t.r{background:var(--or);color:#fff;border-color:var(--or)}.t.k{background:var(--soft)}.t.p{border-style:dashed}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--mute)}
+.fl{position:absolute;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 14px;font:13px/1.5 ui-monospace,Menlo,monospace;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.fl.a{left:-22px;bottom:0;transform:rotate(-3deg);animation:pop .7s .3s both}.fl.b{right:-10px;top:-18px;font:700 13px Figtree,sans-serif;background:var(--or);color:#fff;border-radius:30px;padding:8px 14px;animation:pop .7s .6s both}
+@keyframes pop{from{opacity:0;transform:translateY(14px) rotate(-3deg)}}
+.band{background:var(--ink);color:var(--bg);margin:40px 0 0;padding:30px 0}.band .w{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center}
+.band b{display:block;font:800 36px Fraunces,serif;color:var(--or)}.band span{font-size:14px;opacity:.8}
+.sc{padding:36px 0 8px}.sc .hd{margin-bottom:6px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;padding:34px 0}.r2:nth-child(even) .vis{order:-1}
+.r2 h3{font-size:clamp(26px,3.4vw,36px);margin-bottom:12px}.r2 p{color:var(--mute);margin:0 0 18px;max-width:46ch}
+.r2 ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:6px;font-size:15px}.r2 li:before{content:"✓ ";color:var(--or);font-weight:700}
+.vis{background:linear-gradient(140deg,var(--soft),var(--card));border:1px solid var(--line);border-radius:22px;padding:26px;min-height:240px;display:flex;flex-direction:column;justify-content:center;gap:9px;font-size:14px}
+.vis .ln{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0}.vis .tt{font-weight:800;font-size:18px;border:0}
+.chip{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:30px;padding:4px 12px;font-size:13px;margin:2px 4px 2px 0}.chip.o{background:var(--or);color:#fff;border-color:var(--or)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--or)}.bar i.lo{background:#c2410c}
+.bub{padding:9px 13px;border-radius:12px;max-width:88%}.bub.u{background:var(--or);color:#fff;align-self:flex-end}.bub.a{background:var(--card);border:1px solid var(--line)}
+.fin{margin:30px 0 20px;background:linear-gradient(120deg,var(--or),var(--or2));color:#fff;border-radius:24px;padding:40px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.fin h2{font-size:clamp(26px,3.6vw,38px);max-width:18ch}.fin .btn{background:#fff;color:#3a2418}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button,.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:30px;padding:8px 16px;font:500 15px Figtree,sans-serif;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pan{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 28px}
+.pan div{padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}.pan b{display:block}.pan span{color:var(--mute);font-size:14px}
+.ai{background:var(--ink);color:var(--bg);border-radius:22px;padding:36px;display:grid;grid-template-columns:.9fr 1.1fr;gap:32px}
+.ai h2{font-size:clamp(28px,4vw,40px)}.ai p{opacity:.8}.ai .note{font-size:13px;opacity:.7;margin-top:14px}
+.chat{background:var(--card);color:var(--ink);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:340px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chips button{font-size:13px;padding:6px 12px}.chips button:hover{border-color:var(--or)}
+.log{flex:1;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.m{padding:9px 13px;border-radius:12px;max-width:92%}.m.u{background:var(--or);color:#fff;align-self:flex-end}.m.a{background:var(--soft)}
+.tag{font-size:12px;color:var(--mute)}
+.demo{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.seg{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}.seg button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:7px 14px;font:500 14px Figtree,sans-serif;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--or);border-color:var(--or);color:#fff}
+.it{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.it span{font-weight:500}.it div{display:flex;gap:6px}.it button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 10px;font:500 13px Figtree,sans-serif;cursor:pointer}.it button:hover{border-color:var(--or);color:var(--or2)}
+.ord div{display:flex;justify-content:space-between;padding:3px 0;font-size:15px}.ord .e{color:var(--mute)}
+.sum{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;font-weight:700;display:flex;justify-content:space-between}
+.slip{background:var(--bg);border:1px dashed var(--mute);border-radius:8px;padding:10px;font:13px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;margin-top:10px;display:none}
+.pay{display:grid;gap:8px;margin-top:10px}input{font:16px Figtree,sans-serif;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.msg{font-size:14px;margin-top:6px;min-height:20px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 18px}.flow span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px}.flow em{color:var(--or);font-style:normal}
+.flow.p span:nth-child(5){background:var(--or);color:#fff;border-color:var(--or)}.flow.d span:nth-child(5){background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column}
+.pc.f{background:var(--ink);color:var(--bg);border:0;transform:translateY(-8px)}.pc.f .mu{color:var(--bg);opacity:.75}
+.pc.ad{background:transparent;border:2px dashed var(--or)}
+.pc h3{font-size:24px}.pp{display:flex;align-items:baseline;gap:6px;margin-top:8px}.pp .n{font:800 30px Fraunces,serif}.pp .n2{font:700 20px Fraunces,serif}.mu{color:var(--mute);font-size:14px}
+.pc ul{list-style:none;padding:0;margin:14px 0 18px;display:grid;gap:7px;font-size:14px;flex:1}.pc li:before{content:"✓ ";color:var(--or);font-weight:700}
+.pc .ar{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}.pc .ar b{color:var(--or2);white-space:nowrap}.pc.ad .ar:last-of-type{border:0}
+.sm{font-size:13px;color:var(--mute);margin-top:18px}
+.rm{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.rm div{border:1px dashed var(--mute);border-radius:14px;padding:16px;font-size:15px}.rm small{display:block;color:var(--mute);margin-top:6px}
+.ct{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.tile{display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;text-decoration:none}.tile:hover{border-color:var(--or)}
+.tile small{color:var(--mute);display:block}.tile b{font:700 22px Fraunces,serif;word-break:break-all}
+.pk{background:var(--soft);border-radius:10px;padding:10px 14px;margin:0 0 20px;font-size:15px;display:none}
+footer{padding:24px 0;color:var(--mute);font-size:14px;border-top:1px solid var(--line);margin-top:50px}footer .w{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:900px){.hero .w,.ai,.demo,.r2,.ct{grid-template-columns:1fr}.r2:nth-child(even) .vis{order:0}.pr,.rm,.band .w{grid-template-columns:1fr 1fr}.pan{grid-template-columns:1fr}nav a{padding:5px 7px;font-size:13px}.pc.f{transform:none}.ai{padding:24px}.fin{padding:28px 22px}.fl.a{left:0}}
+@media(max-width:620px){nav{display:none}.pr,.rm{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.fl{animation:none!important}}
+</style>
+</head>
+<body>
+<header><div class="w"><a class="logo" href="#home">MachMind<i>360</i></a>
+<nav id="nv"><a href="#home">Home</a><a href="#features">Features</a><a href="#ai">AI Assistant</a><a href="#how-it-works">How it works</a><a href="#demo">POS demo</a><a href="#pricing">Pricing</a></nav>
+<a class="btn" href="#contact">Contact us</a></div></header>
+
+<main>
+<div class="v" id="v-home" style="padding-top:0">
+<div class="hero"><div class="w">
+<div><h1>Run your restaurant. <span>Not your paperwork.</span></h1>
+<p>Billing, kitchen, inventory and business management, thoughtfully connected in one powerful restaurant POS.</p>
+<div class="cta"><a class="btn" href="#features">Explore features</a><a class="btn g" href="#demo">Try interactive demo</a></div></div>
+<div class="stage"><div class="mock" aria-label="Sample MachMind360 dashboard"><div class="top"><span>The Santosa, Anmod</span><span>Sample data</span></div>
+<div class="mu">Today’s sales</div><div class="big">₹48,260</div>
+<div class="tl"><div class="t">Table 1<b>Free</b></div><div class="t r">Table 2<b>₹840 · 22m</b></div><div class="t k">Table 3<b>KOT sent</b></div><div class="t p">Table 4<b>Bill printed</b></div><div class="t">Table 5<b>Paid</b></div><div class="t r">Parcel 1<b>₹260</b></div></div>
+<div class="lg"><span>Cash ₹21,400</span><span>UPI ₹24,860</span></div></div>
+<div class="fl a">KOT #101 · TABLE 2<br>2 x Paneer butter masala<br>1 x Veg biryani</div><div class="fl b">Low stock: Cooking oil</div></div>
+</div></div>
+<div class="band"><div class="w"><div><b>28</b><span>business reports</span></div><div><b>6</b><span>Indian languages</span></div><div><b>14</b><span>days of nightly backups</span></div><div><b>10</b><span>years of bill retention</span></div></div></div>
+
+<div class="w"><div class="sc"><div class="hd"><h2>Built for the counter, the kitchen and the owner</h2></div></div>
+<div class="r2"><div><h3>Billing that keeps up with the rush</h3><p>GST bills, UPI QR and every way a guest pays, with parcel orders that stay separate from tables.</p><ul><li>Cash, UPI, card, split and due</li><li>Hold bills, discounts, complimentary items</li><li>Keeps billing even when the internet drops</li></ul><a class="btn" href="#features" data-tab="0">See billing features</a></div>
+<div class="vis"><div class="ln"><span>2 × Paneer butter masala (Full)</span><span>₹480</span></div><div class="ln"><span>1 × Veg biryani (Half)</span><span>₹110</span></div><div class="ln"><span>GST</span><span>₹30</span></div><div class="ln tt"><span>Total</span><span>₹620</span></div><div><span class="chip">Cash</span><span class="chip o">UPI</span><span class="chip">Split</span><span class="chip">Due</span></div></div></div>
+<div class="r2"><div><h3>Kitchen tickets that never get lost</h3><p>Every table and parcel order reaches the kitchen as its own KOT, with changes, cancellations and moved tables clearly marked.</p><ul><li>ORDER CHANGED and CANCEL lines</li><li>MOVED slips and DUPLICATE reprints</li><li>Separate table and parcel KOTs</li></ul><a class="btn" href="#how-it-works">See the order flow</a></div>
+<div class="vis"><div class="ln"><b>KOT #102</b><span class="chip o">PARCEL 1</span></div><div class="ln"><span>1 × Masala dosa</span><span>less oil</span></div><div class="ln"><span>2 × Filter coffee</span><span></span></div><div><span class="chip">ORDER CHANGED</span><span class="chip">MOVED</span><span class="chip">DUPLICATE</span></div></div></div>
+<div class="r2"><div><h3>Stock that watches itself</h3><p>Recipes deduct ingredients after every sale. In Pro, smart stock learns real portion sizes and flags unusual gaps.</p><ul><li>Dish cost and food cost percentage</li><li>Low-stock alerts to the owner</li><li>Vendor purchase orders (Pro)</li></ul><a class="btn" href="#features" data-tab="2">See stock features</a></div>
+<div class="vis"><span>Paneer</span><div class="bar"><i style="width:72%"></i></div><span>Rice</span><div class="bar"><i style="width:45%"></i></div><span>Cooking oil · low</span><div class="bar"><i class="lo" style="width:14%"></i></div></div></div>
+<div class="r2"><div><h3>An assistant that knows your numbers</h3><p>Ask which dish made the most money, where cash went missing, or what to buy tomorrow. It suggests, and you decide.</p><ul><li>Plain-language questions</li><li>Menu details from a photo</li><li>Recipes and dish names in Kannada and Hindi</li></ul><a class="btn" href="#ai">Meet the AI Assistant</a></div>
+<div class="vis"><div class="bub u">What should I order for tomorrow?</div><div class="bub a">Sample answer: paneer 8 kg, rice 12 kg, oil 5 L. Want a draft vendor order for approval?</div></div></div>
+<div class="fin"><h2>Ready to see it at your restaurant?</h2><a class="btn" href="#contact">Talk to MachMind360</a></div></div>
+</div>
+
+<div class="v" id="v-features"><div class="w">
+<div class="hd"><h2>Everything the platform does</h2><p>Pick an area to see what is included.</p></div>
+<div class="tabs" id="ft" role="tablist"></div><div class="pan" id="fp" role="tabpanel"></div>
+<p class="sm">Speed figures (0.02 s server response, about 2 s from waiter tap to kitchen printer, a year’s report in under a second) are company figures from the November 2026 presentation, not independently verified guarantees.</p>
+</div></div>
+
+<div class="v" id="v-ai"><div class="w"><div class="ai">
+<div><h2>Your restaurant’s intelligence, in one assistant.</h2>
+<p>Ask in plain language: best-selling dish, expenses, cash gaps, tomorrow’s shopping list. It can also read a photo of a printed menu and suggest dishes, Half/Full options and prices for review.</p>
+<p>It reads, analyses and suggests. It does not independently modify bills, stock or money.</p>
+<p class="note">Paid add-on, from ₹49/month.</p></div>
+<div class="chat"><div class="chips" id="aq"></div><div class="log" id="al" aria-live="polite"></div>
+<div class="tag">Example responses using sample data from The Santosa, Anmod. Simulated, not connected to live data.</div></div>
+</div></div></div>
+
+<div class="v" id="v-how-it-works"><div class="w">
+<div class="hd"><h2>How an order moves</h2><p>Dine-in and parcel have separate flows, and their KOTs never mix.</p></div>
+<div class="flow d"><span>Table</span><em>→</em><span>Order</span><em>→</em><span>Table KOT</span><em>→</em><span>Kitchen</span><em>→</em><span>Payment</span><em>→</em><span>Bill</span><em>→</em><span>Reports</span></div>
+<div class="flow p"><span>Parcel order</span><em>→</em><span>Billing</span><em>→</em><span>Parcel KOT</span><em>→</em><span>Kitchen</span><em>→</em><span>Payment</span><em>→</em><span>Bill</span><em>→</em><span>Reports</span></div>
+<div class="hd" style="margin-top:48px"><h2>Coming next</h2><p>Planned features, not available yet.</p></div>
+<div class="rm"><div>Captain Android app<small>With printing built in</small></div><div>Offline table orders<small>Keep taking orders without internet</small></div><div>Token display screen<small>Shows ready token numbers</small></div><div>Advance orders<small>Bulk and party bookings with advance payment</small></div></div>
+</div></div>
+
+<div class="v" id="v-demo"><div class="w">
+<div class="hd"><h2>Try the billing screen</h2><p>A simulated order at The Santosa, Anmod. The menu is text-only and no real payments happen.</p></div>
+<div class="demo">
+<div class="box"><div class="seg" id="md"></div><div id="mn"></div></div>
+<div class="box"><b id="ot"></b><div class="ord" id="ol"></div>
+<div class="sum"><span>Total</span><span id="tt">₹0</span></div>
+<div class="pay"><div class="seg" id="pm"></div><div id="sp" style="display:none"><input id="ca" type="number" min="0" inputmode="numeric" placeholder="Cash amount (₹)"></div>
+<button class="btn g" id="kb" type="button">Generate KOT</button><button class="btn" id="pb" type="button">Take payment</button></div>
+<div class="msg" id="pg" role="status"></div><pre class="slip" id="ks"></pre></div>
+</div></div></div>
+
+<div class="v" id="v-pricing"><div class="w">
+<div class="hd"><h2>Simple plans</h2><p>Free setup and free training with every plan. Two months free on yearly payment.</p></div>
+<div class="pr">
+<div class="pc"><h3>Basic</h3><div class="pp"><span class="n">₹349</span><span class="mu">/month</span></div><div class="pp"><span class="n2">₹3,990</span><span class="mu">/year</span></div><ul><li>Billing on any phone</li><li>GST bills and UPI QR</li><li>Printing and offline billing</li><li>Cash, dues and profit</li><li>Phone alerts and reports</li></ul><a class="btn g" href="#contact" data-plan="Basic">Ask about Basic</a></div>
+<div class="pc f"><h3>Plus</h3><div class="pp"><span class="n">₹649</span><span class="mu">/month</span></div><div class="pp"><span class="n2">₹7,990</span><span class="mu">/year</span></div><ul><li>Everything in Basic</li><li>Tables, KOT and Move KOT</li><li>Waiter and chef logins</li><li>Stock and recipes</li><li>Six languages, practice mode</li><li>WhatsApp bills, tap-to-send</li></ul><a class="btn" href="#contact" data-plan="Plus">Ask about Plus</a></div>
+<div class="pc"><h3>Pro</h3><div class="pp"><span class="n">₹849</span><span class="mu">/month</span></div><div class="pp"><span class="n2">₹9,990</span><span class="mu">/year</span></div><ul><li>Everything in Plus</li><li>Smart stock and recipe learning</li><li>Vendor orders</li><li>Automatic WhatsApp</li><li>1,000 AI credits per month</li></ul><a class="btn g" href="#contact" data-plan="Pro">Ask about Pro</a></div>
+<div class="pc ad"><h3>Add-ons</h3><div class="mu" style="margin:6px 0 10px">Add to any plan</div><div class="ar"><span>AI Assistant</span><b>from ₹49</b></div><div class="ar"><span>WhatsApp</span><b>from ₹59</b></div><div class="ar"><span>Customer Loyalty</span><b>₹49</b></div><div class="ar"><span>Top-ups</span><b>from ₹149</b></div></div>
+</div>
+<p class="sm">Plan details and prices are based on the November 2026 product presentation. Please contact MachMind360 to confirm current availability and terms.</p>
+</div></div>
+
+<div class="v" id="v-contact"><div class="w">
+<div class="hd"><h2>Let’s make restaurant management simpler.</h2><p>Your restaurant deserves a smarter way to work. Reach MachMind360 directly.</p></div>
+<div class="pk" id="pk"></div>
+<div class="ct"><a class="tile" href="mailto:machmind360@gmail.com"><small>Email</small><b>machmind360@gmail.com</b></a><a class="tile" href="tel:+919845357149"><small>Phone</small><b>+91 9845357149</b></a></div>
+<p style="margin-top:22px"><a class="btn" id="dm" href="mailto:machmind360@gmail.com?subject=Request%20a%20demo">Request a demo by email</a></p>
+</div></div>
+</main>
+<footer><div class="w"><span>© MachMind360</span><span><a href="mailto:machmind360@gmail.com">machmind360@gmail.com</a> · <a href="tel:+919845357149">+91 9845357149</a></span></div></footer>
+
+<script>
+function E(t,x,c){var e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e}
+var PG=["home","features","ai","how-it-works","demo","pricing","contact"],TT={home:"MachMind360 – Restaurant POS",features:"Features",ai:"AI Assistant",demo:"POS demo",pricing:"Pricing",contact:"Contact","how-it-works":"How it works"},T=0,PL="";
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[data-tab],a[data-plan]");if(a){if(a.dataset.tab)T=+a.dataset.tab;if(a.dataset.plan)PL=a.dataset.plan}});
+function route(){var h=location.hash.slice(1);if(PG.indexOf(h)<0)h="home";
+PG.forEach(function(p){document.getElementById("v-"+p).className="v"+(p===h?" on":"")});
+[].forEach.call(document.querySelectorAll("#nv a"),function(a){if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+document.getElementById("v-home").style.paddingTop=h==="home"?"0":"";
+if(h==="features")sf(T);if(h==="contact"){var k=document.getElementById("pk"),d=document.getElementById("dm");k.style.display=PL?"block":"none";k.textContent=PL?"Enquiring about the "+PL+" plan.":"";d.href="mailto:machmind360@gmail.com?subject="+encodeURIComponent(PL?"Request a demo - "+PL+" plan":"Request a demo")}
+document.title="MachMind360 – "+TT[h];window.scrollTo(0,0)}
+window.addEventListener("hashchange",route);
+
+var F=[["Counter",[["Platform and access","Phone, tablet, computer. App or browser. Hosting, updates and backups included."],["Billing","Dine-in and parcel, Half/Full/1 kg, hold bills, discounts, complimentary items."],["Tables","Free, Running, KOT, Bill Printed, Paid. Move or split orders."],["KOT and printing","Kitchen printer or tablet, ORDER CHANGED, CANCEL, MOVED, DUPLICATE."]]],
+["Team",[["Staff logins","Owner, cashier, waiter, chef with role-based access."],["Languages","English, Hindi, Kannada, Marathi, Konkani, Bengali."],["Dues and complimentary","Customer dues, part payments, one-tap calling, reasons recorded."],["WhatsApp and loyalty","Bill links, vendor orders, ₹5 reward per ₹100 (loyalty is an add-on)."]]],
+["Stock",[["Inventory","Recipe-based stock, automatic deduction, dish cost and food cost %."],["Smart stock (Pro)","Learns real portions, flags stock gaps and waste, owner approves recipe changes."],["Vendors (Pro)","Draft purchase orders, approval, WhatsApp ordering, goods receipt, GST purchase bills."],["Low-stock alerts","Owner is told before an item runs out."]]],
+["Money",[["Dashboard","Daily and monthly sales, expenses, cash and profit for the owner."],["Cash and expenses","Expected versus counted cash, paid-out expenses, owner-only profit."],["Reports","28 reports with Excel and PDF export, including GST and GSTR-1."],["Alerts and daily flow","Discount, low-stock and cash-shortage alerts. Count cash at opening and closing."]]],
+["Trust",[["Security","Separate restaurant databases, HTTPS, individual logins, on-site staff access."],["Backups","Nightly backups for 14 days. Bills retained for ten years."],["Getting started","Free setup, menu entry (even from a photo), staff training, home-screen setup."],["Plan-based","Features vary by Basic, Plus, Pro and add-ons. See pricing."]]]];
+var ft=document.getElementById("ft"),fp=document.getElementById("fp");
+function sf(i){T=0;[].forEach.call(ft.children,function(b,j){b.setAttribute("aria-selected",j===i)});fp.textContent="";F[i][1].forEach(function(r){var d=E("div");d.appendChild(E("b",r[0]));d.appendChild(E("span",r[1]));fp.appendChild(d)})}
+F.forEach(function(f,i){var b=E("button",f[0]);b.type="button";b.setAttribute("role","tab");b.onclick=function(){sf(i)};ft.appendChild(b)});
+
+var Q=[["Best-selling dish?","Sample answer: Paneer butter masala earned the most today, ₹9,840 from 41 plates, ahead of Veg biryani at ₹7,220."],
+["Cash shortage?","Sample answer: Counted cash is ₹300 below expected. The gap lines up with 3 cash bills after 9 pm. Worth a check with the closing cashier."],
+["Tomorrow’s shopping list","Sample answer: Paneer 8 kg, rice 12 kg, tomatoes 6 kg, cooking oil 5 L. Low-stock items are included. I can draft a vendor order for approval."],
+["Evening summary","Sample answer: 126 bills, ₹48,260 sales, ₹3,150 paid-out expenses. Approximate profit ₹14,900. Two items are low on stock."],
+["Translate dish names","Sample answer: Masala dosa → ಮಸಾಲೆ ದೋಸೆ (Kannada), मसाला डोसा (Hindi). Review before saving to your menu."]];
+var aq=document.getElementById("aq"),al=document.getElementById("al");
+function ask(i){al.appendChild(E("div",Q[i][0],"m u"));al.appendChild(E("div",Q[i][1],"m a"));al.scrollTop=al.scrollHeight}
+Q.forEach(function(q,i){var b=E("button",q[0]);b.type="button";b.onclick=function(){ask(i)};aq.appendChild(b)});
+al.appendChild(E("div","Pick a question to see an example answer.","m a"));
+
+var M=[["Masala dosa",[["Plate",90]]],["Paneer butter masala",[["Half",140],["Full",240]]],["Veg biryani",[["Half",110],["Full",190]]],["Filter coffee",[["Cup",30]]],["Gulab jamun",[["2 pcs",50]]]];
+var ord=[],mode="Table 3",pay="Cash",kn=100,mn=document.getElementById("mn");
+function rs(n){return "₹"+n.toLocaleString("en-IN")}
+M.forEach(function(m){var r=E("div",null,"it");r.appendChild(E("span",m[0]));var d=E("div");m[1].forEach(function(p){var b=E("button",p[0]+" "+rs(p[1]));b.type="button";b.onclick=function(){var f=ord.filter(function(o){return o.n===m[0]&&o.p===p[0]})[0];if(f)f.q++;else ord.push({n:m[0],p:p[0],pr:p[1],q:1});rd()};d.appendChild(b)});r.appendChild(d);mn.appendChild(r)});
+function seg(id,arr,get,set){var s=document.getElementById(id);arr.forEach(function(a){var b=E("button",a);b.type="button";b.onclick=function(){set(a);[].forEach.call(s.children,function(c){c.setAttribute("aria-pressed",c===b)});rd()};b.setAttribute("aria-pressed",a===get);s.appendChild(b)})}
+seg("md",["Table 3","Parcel 1"],mode,function(v){mode=v});
+seg("pm",["Cash","UPI","Split"],pay,function(v){pay=v;document.getElementById("sp").style.display=v==="Split"?"block":"none"});
+function tot(){return ord.reduce(function(s,o){return s+o.pr*o.q},0)}
+function rd(){document.getElementById("ot").textContent=mode+" order";var l=document.getElementById("ol");l.textContent="";
+if(!ord.length)l.appendChild(E("div","No dishes yet. Add from the menu.","e"));
+ord.forEach(function(o,i){var d=E("div");d.appendChild(E("span",o.q+" × "+o.n+" ("+o.p+")"));var s=E("span");var m=E("button","−");m.type="button";m.setAttribute("aria-label","Remove one "+o.n);m.onclick=function(){o.q--;if(o.q<1)ord.splice(i,1);rd()};s.appendChild(document.createTextNode(rs(o.pr*o.q)+" "));s.appendChild(m);d.appendChild(s);l.appendChild(d)});
+document.getElementById("tt").textContent=rs(tot())}
+document.getElementById("kb").onclick=function(){var s=document.getElementById("ks"),m=document.getElementById("pg");if(!ord.length){m.textContent="Add a dish first.";return}
+var p=mode.indexOf("Parcel")===0;kn++;s.style.display="block";s.textContent="KOT #"+kn+"  "+(p?"PARCEL":"DINE-IN")+"\n"+mode.toUpperCase()+"\n----------------\n"+ord.map(function(o){return o.q+" x "+o.n+" ("+o.p+")"}).join("\n");m.textContent="KOT sent to kitchen display (simulated)."};
+document.getElementById("pb").onclick=function(){var m=document.getElementById("pg"),t=tot();if(!t){m.textContent="Add a dish first.";return}
+if(pay==="Split"){var c=Number(document.getElementById("ca").value)||0;if(c<=0||c>=t){m.textContent="Enter a cash amount above ₹0 and below "+rs(t)+".";return}m.textContent="Simulated split: Cash "+rs(c)+" + UPI "+rs(t-c)+" = "+rs(t)+". No real money moved."}
+else m.textContent="Simulated "+pay+" payment of "+rs(t)+" received. No real money moved."};
+rd();sf(0);route();
+</script>
+</body>
+</html>
